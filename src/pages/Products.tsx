@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
-import { ArrowLeft, Check } from 'lucide-react';
+import { ArrowLeft, Check, X } from 'lucide-react';
 import { SectionHeading } from '@/components/SectionHeading';
 import { ProductGrid } from '@/components/ProductGrid';
 import { products, type Product } from '@/data/products';
 import { Link, useRouter } from '@/components/Router';
+import { Reveal } from '@/components/Reveal';
+import { MagneticButton } from '@/components/MagneticButton';
 
 export function Products() {
   const { path } = useRouter();
@@ -57,21 +59,23 @@ export function Products() {
       {/* CTA */}
       <section className="section-padding bg-coco-cream">
         <div className="container-coco">
-          <div className="relative overflow-hidden rounded-[2.5rem] bg-coco-green px-8 py-16 md:px-16 md:py-20 text-center">
-            <div className="absolute top-0 left-0 w-[300px] h-[300px] bg-gradient-radial from-accent-gold/15 via-transparent to-transparent" />
-            <div className="relative z-10 max-w-2xl mx-auto">
-              <SectionHeading
-                title="Need a custom specification?"
-                subtitle="We work with businesses of all sizes — from retailers to food manufacturers. Tell us what you need and we'll make it happen."
-                light
-              />
-              <div className="mt-8">
-                <Link to="/contact" className="btn-gold">
-                  Request a Quote
-                </Link>
+          <Reveal direction="scale">
+            <div className="relative overflow-hidden rounded-[2.5rem] bg-coco-green px-8 py-16 md:px-16 md:py-20 text-center">
+              <div className="absolute top-0 left-0 w-[300px] h-[300px] bg-gradient-radial from-accent-gold/15 via-transparent to-transparent" />
+              <div className="relative z-10 max-w-2xl mx-auto">
+                <SectionHeading
+                  title="Need a custom specification?"
+                  subtitle="We work with businesses of all sizes — from retailers to food manufacturers. Tell us what you need and we'll make it happen."
+                  light
+                />
+                <div className="mt-8">
+                  <MagneticButton to="/contact" className="btn-gold">
+                    Request a Quote
+                  </MagneticButton>
+                </div>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
     </>
@@ -79,6 +83,18 @@ export function Products() {
 }
 
 function ProductDetail({ product, onClose }: { product: Product; onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
+    };
+  }, [onClose]);
+
   return (
     <div
       className="fixed inset-0 z-[60] flex items-center justify-center p-4 md:p-8 animate-fade-in"
@@ -91,17 +107,17 @@ function ProductDetail({ product, onClose }: { product: Product; onClose: () => 
       >
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/80 backdrop-blur-sm text-coco-dark/60 hover:text-coco-green hover:bg-coco-cream transition-all"
+          className="absolute top-5 right-5 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/80 backdrop-blur-sm text-coco-dark/60 hover:text-coco-green hover:bg-coco-cream hover:rotate-90 transition-all duration-300"
           aria-label="Close"
         >
-          <ArrowLeft className="h-5 w-5" />
+          <X className="h-5 w-5" />
         </button>
 
-        <div className="relative aspect-[16/9] overflow-hidden rounded-t-3xl bg-coco-cream">
+        <div className="relative aspect-[16/9] overflow-hidden rounded-t-3xl bg-coco-cream group">
           <img
             src={product.image}
             alt={product.name}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
         </div>
 
@@ -136,7 +152,7 @@ function ProductDetail({ product, onClose }: { product: Product; onClose: () => 
               {product.specs.map((spec) => (
                 <div
                   key={spec.label}
-                  className="flex items-center justify-between rounded-xl bg-coco-cream/60 px-4 py-3"
+                  className="flex items-center justify-between rounded-xl bg-coco-cream/60 px-4 py-3 transition-colors duration-300 hover:bg-coco-cream"
                 >
                   <span className="text-sm text-coco-dark/50">{spec.label}</span>
                   <span className="text-sm font-semibold text-coco-green">

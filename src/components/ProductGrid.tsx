@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { products, productCategories, type Product } from '@/data/products';
 import { ProductCard } from './ProductCard';
+import { Reveal } from './Reveal';
 
 interface ProductGridProps {
   products?: Product[];
@@ -28,7 +29,7 @@ export function ProductGrid({ products: items, showFilter = true }: ProductGridP
                 onClick={() => setActiveCategory(cat)}
                 className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-300 ${
                   isActive
-                    ? 'bg-coco-green text-coco-cream shadow-md shadow-coco-green/20'
+                    ? 'bg-coco-green text-coco-cream shadow-md shadow-coco-green/20 scale-105'
                     : 'bg-white text-coco-dark/60 hover:bg-coco-green/5 hover:text-coco-green'
                 }`}
               >
@@ -41,7 +42,7 @@ export function ProductGrid({ products: items, showFilter = true }: ProductGridP
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {filtered.map((product, i) => (
-          <ProductCard key={product.id} product={product} index={i} />
+          <ProductCard key={`${activeCategory}-${product.id}`} product={product} index={i} />
         ))}
       </div>
 

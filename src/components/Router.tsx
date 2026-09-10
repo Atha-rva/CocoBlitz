@@ -41,14 +41,20 @@ interface LinkProps {
   children: ReactNode;
   className?: string;
   onClick?: () => void;
+  innerRef?: React.Ref<HTMLAnchorElement>;
+  onMouseMove?: (e: React.MouseEvent) => void;
+  onMouseLeave?: () => void;
 }
 
-export function Link({ to, children, className, onClick }: LinkProps) {
+export function Link({ to, children, className, onClick, innerRef, onMouseMove, onMouseLeave }: LinkProps) {
   const { navigate } = useRouter();
   return (
     <a
+      ref={innerRef}
       href={to}
       className={className}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
       onClick={(e) => {
         e.preventDefault();
         navigate(to);

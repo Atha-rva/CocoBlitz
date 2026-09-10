@@ -2,6 +2,9 @@ import { RouterProvider, useRouter } from '@/components/Router';
 import { ScrollToTop } from '@/components/ScrollToTop';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
+import { ScrollProgress } from '@/components/ScrollProgress';
+import { CursorGlow } from '@/components/CursorGlow';
+import { PageTransition } from '@/components/PageTransition';
 import { Home } from '@/pages/Home';
 import { About } from '@/pages/About';
 import { Products } from '@/pages/Products';
@@ -27,8 +30,12 @@ function CurrentPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <ScrollProgress />
+      <CursorGlow />
       <Header />
-      <main className="flex-1">{renderPage()}</main>
+      <main className="flex-1">
+        <PageTransition key={path}>{renderPage()}</PageTransition>
+      </main>
       <Footer />
     </div>
   );

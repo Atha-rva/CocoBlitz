@@ -1,13 +1,24 @@
 import { ArrowRight, Leaf, Sparkles } from 'lucide-react';
 import { Link } from './Router';
+import { MagneticButton } from './MagneticButton';
+import { AnimatedCounter } from './AnimatedCounter';
+import { useParallax } from '@/hooks/useParallax';
 
 export function Hero() {
+  const parallax = useParallax(0.15);
+
   return (
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-coco-cream via-coco-cream to-coco-sandlight/40" />
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-radial from-accent-gold/8 via-transparent to-transparent" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-radial from-coco-green/8 via-transparent to-transparent" />
+      <div
+        className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-radial from-accent-gold/8 via-transparent to-transparent"
+        style={{ transform: `translateY(${parallax * 0.5}px)` }}
+      />
+      <div
+        className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-radial from-coco-green/8 via-transparent to-transparent"
+        style={{ transform: `translateY(${-parallax * 0.3}px)` }}
+      />
 
       <div className="container-coco relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -31,25 +42,25 @@ export function Hero() {
             </p>
 
             <div className="mt-9 flex flex-col sm:flex-row gap-4 animate-fade-in-up animate-delay-300">
-              <Link to="/products" className="btn-primary">
+              <MagneticButton to="/products" className="btn-primary">
                 Explore Products
                 <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link to="/contact" className="btn-secondary">
+              </MagneticButton>
+              <MagneticButton to="/contact" className="btn-secondary">
                 Contact Us
-              </Link>
+              </MagneticButton>
             </div>
 
-            {/* Stats */}
+            {/* Stats with animated counters */}
             <div className="mt-14 flex gap-8 animate-fade-in-up animate-delay-500">
               {[
-                { value: '15+', label: 'Years of Expertise' },
-                { value: '20+', label: 'Global Markets' },
-                { value: '100%', label: 'Natural Quality' },
+                { value: 15, suffix: '+', label: 'Years of Expertise' },
+                { value: 20, suffix: '+', label: 'Global Markets' },
+                { value: 100, suffix: '%', label: 'Natural Quality' },
               ].map((stat) => (
                 <div key={stat.label}>
                   <div className="font-display text-3xl font-extrabold text-coco-green">
-                    {stat.value}
+                    <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                   </div>
                   <div className="text-xs text-coco-dark/40 mt-1 max-w-[80px] leading-tight">
                     {stat.label}
@@ -59,9 +70,12 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Right — Image */}
+          {/* Right — Image with parallax */}
           <div className="relative animate-fade-in-up animate-delay-300">
-            <div className="relative rounded-[2rem] overflow-hidden shadow-2xl shadow-coco-green/15 aspect-[4/5] max-w-md mx-auto">
+            <div
+              className="relative rounded-[2rem] overflow-hidden shadow-2xl shadow-coco-green/15 aspect-[4/5] max-w-md mx-auto"
+              style={{ transform: `translateY(${parallax * 0.1}px)` }}
+            >
               <img
                 src="https://images.pexels.com/photos/7543141/pexels-photo-7543141.jpeg?auto=compress&cs=tinysrgb&h=900&w=720"
                 alt="Fresh coconuts"
@@ -71,7 +85,10 @@ export function Hero() {
             </div>
 
             {/* Floating badge */}
-            <div className="absolute -bottom-6 -left-6 hidden md:flex items-center gap-3 rounded-2xl bg-white px-5 py-4 shadow-xl shadow-coco-green/10 animate-float">
+            <div
+              className="absolute -bottom-6 -left-6 hidden md:flex items-center gap-3 rounded-2xl bg-white px-5 py-4 shadow-xl shadow-coco-green/10 animate-float"
+              style={{ transform: `translateY(${parallax * 0.2}px)` }}
+            >
               <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-coco-green">
                 <Leaf className="h-5 w-5 text-coco-cream" />
               </span>
@@ -82,7 +99,10 @@ export function Hero() {
             </div>
 
             {/* Floating badge top */}
-            <div className="absolute -top-4 -right-4 hidden md:flex items-center gap-2 rounded-full bg-accent-gold px-5 py-2.5 shadow-lg shadow-accent-gold/20">
+            <div
+              className="absolute -top-4 -right-4 hidden md:flex items-center gap-2 rounded-full bg-accent-gold px-5 py-2.5 shadow-lg shadow-accent-gold/20"
+              style={{ transform: `translateY(${parallax * -0.15}px)` }}
+            >
               <span className="text-sm font-bold text-white">Certified Quality</span>
             </div>
           </div>
